@@ -13,4 +13,15 @@ if [ ! -d "$2" ]; then
 	exit 1
 fi
 
-find "$1" -type f -exec sh -c 'cp "$1" "$2/$(basename "${1%.*}")_$(date +%H%M%S).${1##*.}"' _ {} "$2" \;
+for file in $(find "$1" -type f); do
+	filename=$(basename "$file")
+	extension="${filename##*.}"
+	filename="${filename%.*}"
+	new_filename="$filename.$extension"
+
+	if [ -f "$2/$new_filename" ]; then
+		new_filename="${filename}_copy_$(date +%Y%m%d%H%M%S%3N).$extension"
+	fi
+	cp "$file" "$2/$new_filename"
+
+done
