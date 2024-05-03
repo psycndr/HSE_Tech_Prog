@@ -15,7 +15,7 @@ if [ ! -d "$2" ]; then
 	exit 1
 fi
 
-for file in $[find "$1" -type f]; do
+for file in $(find "$1" -type f); do
 	filename=$(basename "$file")
 	extension="${filename##*.}"
 	filename="${filename%.*}"
